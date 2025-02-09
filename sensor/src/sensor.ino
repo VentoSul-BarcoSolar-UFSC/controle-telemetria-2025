@@ -3,6 +3,20 @@
 #include <LiquidCrystal_I2C.h>  // Biblioteca para controle do LCD I2C
 #include <ESP.h>                // Biblioteca para importar funções do ESP
 
+/*
+JSON template:
+{
+  'temperature': '10.9',
+  'voltage': '10.9',
+  'average-voltage': '10.9',
+  'current': '10.9',
+  'speed': '10.9',
+  'latitude': '10.9',
+  'longitude': '10.9'
+  'datetime': '2009-06-15T13:45:30'
+}
+*/
+
 // Definições de constantes
 #define AMOS 5                    // Número de amostras para cálculo da média
 #define INTERVALOLEITURA 200      // Tempo entre as leituras no loop para média (ms)
@@ -22,7 +36,6 @@
 
 // Endereço I2C do ADS1115 (por padrão é 0x48)
 #define I2C_ADDRESS 0x48
-
 
 // Criação do objeto para controle do ADC (ADS1115) com o endereço I2C definido
 ADS1115_WE adc(I2C_ADDRESS);
