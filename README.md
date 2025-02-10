@@ -6,7 +6,7 @@ Repositório dedicado ao desenvolvimento do software que controla a telemetria d
   {
     'temperature': '10.9',
     'voltage': '10.9',
-    'average-voltage': '10.9',
+    'average_voltage': '10.9',
     'current': '10.9',
     'speed': '10.9',
     'latitude': '10.9',
