@@ -36,7 +36,7 @@ function parseMessage (message) {
     obj.minute = parseInt(obj.minute);
     obj.second = parseInt(obj.second);
 
-    // checks for correctness of message formating
+    // checa a corretude da formatação da mensagem
     for (const [key, value] of Object.entries(obj)) {
         if (!key in correct_keys) return;
         else if (isNaN(value)) return;
