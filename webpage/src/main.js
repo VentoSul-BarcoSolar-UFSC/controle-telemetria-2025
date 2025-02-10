@@ -1,4 +1,3 @@
-
 /*
 JSON template:
 {
@@ -8,10 +7,11 @@ JSON template:
   "current": "10.9",
   "speed": "10.9",
   "latitude": "10.9",
-  "longitude": "10.9"
+  "longitude": "10.9",
   "datetime": "2009-06-15T13:45:30"
 }
 */
+// JSON message parsing function
 function parseMessage (message) {
     const obj = JSON.parse(message);
     obj.temperature = parseFloat(obj.temperature);
@@ -25,10 +25,11 @@ function parseMessage (message) {
     [obj.hour, obj.minute, obj.second] = obj.datetime.slice(12, -1).split(":");
     delete obj.datetime;
 
-    console.log(obj)
+    return obj;
 }
 
-parseMessage(`{
+console.log(parseMessage(`
+{
   "temperature": "10.9",
   "voltage": "10.9",
   "average_voltage": "10.9",
@@ -37,4 +38,4 @@ parseMessage(`{
   "latitude": "10.9",
   "longitude": "10.9",
   "datetime": "2009-06-15T13:45:30"
-}`);
+}`))
