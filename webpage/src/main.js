@@ -1,46 +1,79 @@
-/*
-template JSON:
-{
-  "temperature": "10.9",
-  "voltage": "10.9",
-  "average_voltage": "10.9",
-  "current": "10.9",
-  "speed": "10.9",
-  "latitude": "10.9",
-  "longitude": "10.9",
-  "datetime": "2009-06-15T13:45:30"
-}
-*/
 // função de parsing de mensagens: confere corretude da mensagem
 function parseMessage (message) {
-    const obj = JSON.parse(message);
-    const correct_keys = ["temperature", "voltage", "average_voltage", "current", "speed0", "latitude", "longitude", "year", "month", "day", "hour", "minute", "second"];
-    // separa datetime em ano, mês, dia, hora, minuto, segundo
-    [obj.year, obj.month, obj.day] = obj.datetime.slice(0, 10).split("-");
-    [obj.hour, obj.minute, obj.second] = obj.datetime.slice(12, -1).split(":");
-    // deleta a propriedade datetime
-    delete obj.datetime;
-    // converte os valores de string para o valor numérico respectivo
-    // é necessário para garantir que o string é compatível com o tipo esperado de dado
-    obj.temperature = parseFloat(obj.temperature);
-    obj.voltage = parseFloat(obj.voltage);
-    obj.average_voltage = parseFloat(obj.average_voltage);
-    obj.current = parseFloat(obj.current);
-    obj.speed = parseFloat(obj.speed);
-    obj.latitude = parseFloat(obj.latitude);
-    obj.longitude = parseFloat(obj.longitude);
-    obj.year = parseInt(obj.year);
-    obj.month = parseInt(obj.month);
-    obj.day = parseInt(obj.day);
-    obj.hour = parseInt(obj.hour);
-    obj.minute = parseInt(obj.minute);
-    obj.second = parseInt(obj.second);
+  const obj = JSON.parse(message);
+  const correct_keys = ["temperature", "voltage", "average_voltage", "current", "speed0", "latitude", "longitude", "year", "month", "day", "hour", "minute", "second"];
+  // separa datetime em ano, mês, dia, hora, minuto, segundo
+  [obj.year, obj.month, obj.day] = obj.datetime.slice(0, 10).split("-");
+  [obj.hour, obj.minute, obj.second] = obj.datetime.slice(12, -1).split(":");
+  // deleta a propriedade datetime
+  delete obj.datetime;
+  // converte os valores de string para o valor numérico respectivo
+  // é necessário para garantir que o string é compatível com o tipo esperado de dado
+  obj.temperature = parseFloat(obj.temperature);
+  obj.voltage = parseFloat(obj.voltage);
+  obj.average_voltage = parseFloat(obj.average_voltage);
+  obj.current = parseFloat(obj.current);
+  obj.speed = parseFloat(obj.speed);
+  obj.latitude = parseFloat(obj.latitude);
+  obj.longitude = parseFloat(obj.longitude);
+  obj.year = parseInt(obj.year);
+  obj.month = parseInt(obj.month);
+  obj.day = parseInt(obj.day);
+  obj.hour = parseInt(obj.hour);
+  obj.minute = parseInt(obj.minute);
+  obj.second = parseInt(obj.second);
 
-    // checa a corretude da formatação da mensagem
-    for (const [key, value] of Object.entries(obj)) {
-        if (!key in correct_keys) return;
-        else if (isNaN(value)) return;
-    }
+  // checa a corretude da formatação da mensagem
+  for (const [key, value] of Object.entries(obj)) {
+      if (!key in correct_keys) return;
+      else if (isNaN(value)) return;
+  }
 
-    return JSON.stringify(obj);
+  return obj;
 }
+// server
+const express = require('express');
+const app = express();
+const port = 3000;
+
+var msg = ``;
+
+// conectando-se ao broker
+const mqtt = require('mqtt')
+const url = 'mqtts://e5e3f5fd.ala.us-east-1.emqxsl.com:8883'
+const options = {
+  // Clean session
+  clean: true,
+  connectTimeout: 4000,
+  // Authentication
+  clientId: '1',
+  username: 'VentoSul',
+  password: 'pL58FtyEzGx6Zcd',
+}
+// inscrevendo-se ao tópico quando conectado
+const client  = mqtt.connect(url, options)
+client.on('connect', function () {
+  console.log('Connected')
+  // Subscribe to a topic
+  client.subscribe('testVS')
+})
+
+// função de callback
+client.on('message', function (topic, message) {
+  // message is Buffer
+  msg = message.toString()
+  console.log("received message")
+  console.log(msg)
+})
+
+// Rest API direcionando os dados coletados
+app.get('/api/data', (req, res) => {
+    const jsonData = parseMessage(msg);
+    res.json(jsonData);
+});
+app.use(express.static('public'));
+
+// inicializa o server
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
