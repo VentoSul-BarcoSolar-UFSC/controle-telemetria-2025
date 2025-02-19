@@ -40,15 +40,15 @@ var msg = ``;
 
 // conectando-se ao broker
 const mqtt = require('mqtt')
-const url = 'mqtts://e5e3f5fd.ala.us-east-1.emqxsl.com:8883'
+const url = ''
 const options = {
   // Clean session
   clean: true,
   connectTimeout: 4000,
   // Authentication
   clientId: '1',
-  username: 'VentoSul',
-  password: 'pL58FtyEzGx6Zcd',
+  username: '',
+  password: '',
 }
 // inscrevendo-se ao tópico quando conectado
 const client  = mqtt.connect(url, options)
