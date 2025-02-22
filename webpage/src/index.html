@@ -8,27 +8,6 @@
         </style>
     </head>
     <body>
-        <script>
-            // código do cliente
-            // exemplo: função de parsing das mensagens: converte JSON em um objeto e converte os valores de string para sua tipagem respectiva
-            function parseMessage (message) {
-                const obj = JSON.parse(message);
-                obj.temperature = parseFloat(obj.temperature);
-                obj.voltage = parseFloat(obj.voltage);
-                obj.average_voltage = parseFloat(obj.average_voltage);
-                obj.current = parseFloat(obj.current);
-                obj.speed = parseFloat(obj.speed);
-                obj.latitude = parseFloat(obj.latitude);
-                obj.longitude = parseFloat(obj.longitude);
-                obj.year = parseInt(obj.year);
-                obj.month = parseInt(obj.month);
-                obj.day = parseInt(obj.day);
-                obj.hour = parseInt(obj.hour);
-                obj.minute = parseInt(obj.minute);
-                obj.second = parseInt(obj.second);
-
-                return obj;
-            }
-        </script>
+        <script src="client.js"></script>
     </body>
 </html>
