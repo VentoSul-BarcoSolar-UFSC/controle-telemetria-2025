@@ -2,12 +2,61 @@
 <html lang="pt-br">
     <head>
         <title>Telemetria Guarapuvu</title>
-        <meta charset="UTF--8">
-        <style>
-            
-        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/mqtt@5.0.0/dist/mqtt.min.js"></script>
+        <link rel="stylesheet" href="telemetria-guara-styles.css" />
     </head>
     <body>
-        <script src="client.js"></script>
+        <div class="flex-container">
+          <div class="version-info">
+            <h3 class="version-title">
+              Telemetria    |    Guarapuvu 2024    |    Equipe Vento Sul
+            </h3>
+          </div>
+        </div>
+        <div class="flex-container">
+          <div class="info-container">
+            <h3 class="info-title">Potência (W)</h3>
+            <p id="power" class="info">0</p>
+          </div>
+          <div class="info-container">
+            <h3 class="info-title">SoC (%)</h3>
+            <p id="SoC" class="info">0%</p>
+          </div>
+          <div class="info-container">
+            <h3 class="info-title">Tensão (V)</h3>
+            <p id="vPackInfo" class="info">0 V</p>
+          </div>
+          <div class="info-container">
+            <h3 class="info-title">Corrente (A)</h3>
+            <p id="cPackInfo" class="info">0 A</p>
+          </div>
+          <div class="info-container">
+            <h3 class="info-title">Temperatura (°C)</h3>
+            <p id="tPackInfo" class="info">0 °C</p>
+          </div>
+        </div>
+        <div class="flex-container">
+          <div class="chart-container">
+            <canvas id="voltage"></canvas>
+          </div>
+          <div class="chart-container">
+            <canvas id="current"></canvas>
+          </div>
+          <div class="chart-container">
+            <canvas id="temperature"></canvas>
+          </div>
+        </div>
+        <div class="map-container">
+          <div id="map"></div>
+        </div>
+        <!-- Mapbox GL JS Library -->
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+        <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+        <script src="map.js"></script>
+        <script src="graphs.js"></script>
+        <script type="module" src="client.js"></script>
     </body>
 </html>
